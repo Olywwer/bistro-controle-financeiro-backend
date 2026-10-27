@@ -21,12 +21,15 @@ public class AuthController {
 
     private final AuthService authService;
     private final boolean secureCookie;
+    private final String cookieSameSite;
 
     public AuthController(
             AuthService authService,
-            @org.springframework.beans.factory.annotation.Value("${app.auth-cookie-secure:false}") boolean secureCookie) {
+            @org.springframework.beans.factory.annotation.Value("${app.auth-cookie-secure:false}") boolean secureCookie,
+            @org.springframework.beans.factory.annotation.Value("${app.auth-cookie-same-site:Strict}") String cookieSameSite) {
         this.authService = authService;
         this.secureCookie = secureCookie;
+        this.cookieSameSite = cookieSameSite;
     }
 
     @PostMapping("/register")
@@ -71,7 +74,7 @@ public class AuthController {
         return ResponseCookie.from(SESSION_COOKIE, token)
                 .httpOnly(true)
                 .secure(secureCookie)
-                .sameSite("Strict")
+                .sameSite(cookieSameSite)
                 .path("/api")
                 .maxAge(maxAge)
                 .build();
