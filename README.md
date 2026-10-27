@@ -12,6 +12,8 @@ API Java 21 com Spring Boot e PostgreSQL. Os dados financeiros ficam no banco, n
    - `FRONTEND_ORIGIN`: origem HTTPS do frontend publicada no Render, sem barra final.
 4. Aguarde o deploy e teste `https://URL-DA-API/api/health`; a resposta esperada é `{"status":"ok"}`.
 
+Se o log mostrar `DATABASE_URL ausente`, abra o serviço da API no Render, vá a **Environment**, crie/preencha `DATABASE_URL` e as duas variáveis de credenciais e salve com **Save, rebuild, and deploy**. O Blueprint deixa esses valores intencionalmente fora do GitHub (`sync: false`); eles não são preenchidos automaticamente pelo Supabase.
+
 O Session pooler é compatível com redes IPv4 e com conexões persistentes. O Blueprint ativa HTTPS nos cookies e permite chamadas com sessão somente da origem configurada do frontend. Não compartilhe as credenciais nem as coloque em arquivos versionados; informe-as somente no painel do Render.
 
 O serviço gratuito do Render pode suspender a API quando estiver ociosa, tornando a primeira solicitação mais lenta. Confira também os limites e as condições atuais do plano Supabase escolhido.
@@ -19,7 +21,7 @@ O serviço gratuito do Render pode suspender a API quando estiver ociosa, tornan
 ## Executar localmente
 
 1. Instale o JDK 21 e o PostgreSQL.
-2. Copie `.env.example` para `.env` e preencha as credenciais do banco.
+2. Copie `.env.example` para `.env` e preencha `DATABASE_URL`, `DATABASE_USERNAME` e `DATABASE_PASSWORD` com as credenciais do seu banco.
 3. Abra `pom.xml` no IntelliJ IDEA como projeto Maven e execute `FinanceiroApiApplication.java`, ou execute `mvn spring-boot:run`.
 
 A API local fica em `http://127.0.0.1:3001`. A consulta SQL de lançamentos está em `consultar-lancamentos.sql`.

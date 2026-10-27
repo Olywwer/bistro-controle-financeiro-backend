@@ -19,7 +19,9 @@ public class DatabaseConfiguration {
             @Value("${app.database-username:}") String configuredUsername,
             @Value("${app.database-password:}") String configuredPassword) {
         if (databaseUrl.isBlank()) {
-            throw new IllegalStateException("DATABASE_URL ausente. Configure a conexão PostgreSQL no arquivo .env.");
+            throw new IllegalStateException(
+                    "DATABASE_URL ausente. No Render, configure DATABASE_URL em Environment > Add Variable; "
+                            + "localmente, configure-a no arquivo .env a partir de .env.example.");
         }
 
         String uriValue = databaseUrl.startsWith("jdbc:") ? databaseUrl.substring("jdbc:".length()) : databaseUrl;
@@ -40,7 +42,9 @@ public class DatabaseConfiguration {
             }
         }
         if (username.isBlank() || password.isBlank()) {
-            throw new IllegalStateException("Configure usuário e senha PostgreSQL em DATABASE_URL ou DATABASE_USERNAME/DATABASE_PASSWORD.");
+            throw new IllegalStateException(
+                    "Credenciais PostgreSQL ausentes. Configure DATABASE_USERNAME e DATABASE_PASSWORD "
+                            + "no ambiente do Render ou no arquivo .env local.");
         }
 
         String host = uri.getHost().contains(":") ? "[" + uri.getHost() + "]" : uri.getHost();
