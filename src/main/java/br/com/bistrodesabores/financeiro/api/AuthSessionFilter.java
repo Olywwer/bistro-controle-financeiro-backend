@@ -45,6 +45,11 @@ public class AuthSessionFilter extends OncePerRequestFilter {
             HttpServletResponse response,
             FilterChain filterChain) throws ServletException, IOException {
         String origin = request.getHeader("Origin");
+        if (frontendOrigin.equals(origin)) {
+            response.setHeader("Access-Control-Allow-Origin", frontendOrigin);
+            response.setHeader("Access-Control-Allow-Credentials", "true");
+            response.addHeader("Vary", "Origin");
+        }
         if (origin != null
                 && !isSafeMethod(request.getMethod())
                 && !frontendOrigin.equals(origin)) {
